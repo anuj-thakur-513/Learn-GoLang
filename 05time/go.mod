@@ -1,3 +1,3 @@
-module time
+module timepackage
 
 go 1.22.3
