@@ -31,7 +31,27 @@ func performGetRequest() {
 	fmt.Println(resString.String())
 }
 
+func performPostJsonRequest() {
+	const myUrl = "http://localhost:8000/post"
+
+	// fake JSON data
+	requestBody := strings.NewReader(`
+		{
+			"coursename": "golang basics",
+			"price": 0
+		}
+	`)
+
+	res, err := http.Post(myUrl, "application/json", requestBody)
+	checkErrorNil(err)
+	defer res.Body.Close()
+
+	content, _ := io.ReadAll(res.Body)
+	fmt.Println(string(content))
+}
+
 func main() {
 	fmt.Println("welcome to web requests")
 	performGetRequest()
+	performPostJsonRequest()
 }
