@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -50,8 +51,25 @@ func performPostJsonRequest() {
 	fmt.Println(string(content))
 }
 
+func performPostFormRequest() {
+	const myUrl = "http://localhost:8000/postform"
+	// fake form data
+	data := url.Values{}
+	data.Add("firstname", "anuj")
+	data.Add("lastname", "thakur")
+	data.Add("email", "test@test.com")
+
+	res, err := http.PostForm(myUrl, data)
+	checkErrorNil(err)
+	defer res.Body.Close()
+
+	content, _ := io.ReadAll(res.Body)
+	fmt.Println(string(content))
+}
+
 func main() {
 	fmt.Println("welcome to web requests")
 	performGetRequest()
 	performPostJsonRequest()
+	performPostFormRequest()
 }
